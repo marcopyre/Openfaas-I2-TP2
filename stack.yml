@@ -1,0 +1,42 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  daily-fetcher:
+    lang: python3-http-debian
+    handler: ./daily-fetcher
+    image: marcopyre/daily-fetcher:latest
+    environment:
+      USER_ID: "US3"
+    annotations:
+      schedule: "0 8 * * *"
+    constraints:
+      - "kubernetes.io/arch=amd64"
+
+  file-transformer:
+    lang: python3-http-debian
+    handler: ./file-transformer
+    image: marcopyre/file-transformer:latest
+    environment:
+      USER_ID: "US3"
+      SFTP_HOST: "192.168.1.38"
+      SFTP_USER: "openfaas-sftp"
+      SFTP_PASS: "openfaas-sftp"
+    annotations:
+      topic: "orders.import"
+    constraints:
+      - "kubernetes.io/arch=amd64"
+
+  status-checker:
+    lang: python3-http-debian
+    handler: ./status-checker
+    image: marcopyre/status-checker:latest
+    environment:
+      USER_ID: "US3"
+      SFTP_HOST: "192.168.1.38"
+      SFTP_USER: "openfaas-sftp"
+      SFTP_PASS: "openfaas-sftp"
+    constraints:
+      - "kubernetes.io/arch=amd64"
