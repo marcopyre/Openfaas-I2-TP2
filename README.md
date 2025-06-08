@@ -41,3 +41,11 @@ Ce projet implémente une chaîne de traitement automatisée de commandes pour D
 chmod +x deploy.sh
 ./deploy.sh
 ```
+
+# Screenshots:
+
+![Screenshot of daily-fetcher](/screenshots/daily-fetcher.png)
+
+![Screenshot of file-transformer](/screenshots/file-transformer.png)
+
+![Screenshot of status-checker](/screenshots/status-checker.png)
